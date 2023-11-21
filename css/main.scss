@@ -1,0 +1,281 @@
+@mixin mobile {
+    @media screen and (max-width: 830px) {
+        @content;
+    }
+}
+
+/* RESET  */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: unset;
+}
+
+.icon-sprite {
+    display: none;
+}
+
+/* MAIN */
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #242B3E;
+}
+
+.container {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 8px 8px 30px rgba(0,0,0,.15);
+    display: flex;
+    padding: 2rem 0;
+
+    @include mobile {
+        flex-direction: column;
+        max-width: 100%;
+        width: 100%;
+        padding: 1.6rem 0;
+        border-radius: unset;
+    }
+
+    svg {
+        display: block;
+        cursor: pointer;
+        box-sizing: content-box;
+        width: 30px;
+        height: 30px;
+    }
+
+    .nav-header {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        width: min-content;
+
+        @include mobile {
+            flex-direction: row;
+            width: 100%;
+            padding: 0 1.6rem;
+            position: fixed;
+            bottom: 0;
+            z-index: 100;
+            background-color: #fff;
+            box-shadow: 0 -5px 9px rgba(0,0,0,.15);
+        }
+
+        .nav {
+            border-right: 2px solid #DEDEDE;
+            padding-bottom: 2.8rem;
+
+            @include mobile {
+                border: unset;
+                padding: 1.3rem 0;
+                display: flex;
+                width: 80%;
+                justify-content: space-between;
+            }
+
+            .svg-box {
+                position: relative;
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    right: -1px;
+                    width: 2px;
+                    height: 0%;
+                    background-color: #5A81F5;
+                    opacity: 0;
+                    transition: height .1s, opacity .1s;
+
+                    @include mobile {
+                        right: 50%;
+                        height: 2px;
+                        width: 0%;
+                        top: unset;
+                        transform: translateX(50%);
+                        bottom: -6px;
+                        transition: width .1s, opacity .1s;
+                    }
+                }
+
+                &.current, &:not(.logo):hover {
+                    &::after {
+                        height: 95%;
+                        opacity: 1;
+
+                        @include mobile {
+                            height: 2px;
+                            width: 90%;
+                        }
+                    }
+                }
+
+                svg {
+                    margin-bottom: 1.7rem;
+                    fill: #D5D5D5;
+                    transition: fill .1s;
+                    padding: 0 2rem;
+                    
+                    @include mobile {
+                        padding: 0;
+                        margin: 0;
+                        width: 25px;
+                        height: 25px;
+                    }
+    
+                    &.logo {
+                        fill: #5A81F5;
+                        margin-bottom: 4.5rem;
+
+                        @include mobile {
+                            margin: 0;
+                        }
+                    }
+                    
+                    &.current, &:not(.logo):hover {
+                        fill: #5A81F5;
+                    }
+                }
+            }
+
+        }
+        
+        .avatar {
+            width: 45%;
+            border-radius: 50%;
+            border: 2px solid #5A81F5;
+
+            @include mobile {
+                width: 33px;
+            }
+        }
+    }
+
+    .content {
+        padding: 0 2.5rem;
+
+        @include mobile {
+            padding: 0 1.6rem;
+        }
+
+        .images-count {
+            color: #a5a5a5;
+            font-weight: 500;
+
+            @include mobile {
+                font-size: .95rem;
+            }
+        }
+
+        .tag-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: .9rem 0 1.7rem 0;
+
+            @include mobile {
+                margin: .7rem 0 1.9rem 0;
+            }
+
+            .tag {
+                font-size: 3.8rem;
+            }
+
+            .more-btn {
+                text-transform: uppercase;
+                color: #5A81F5;
+                font-size: .9rem;
+                font-weight: 500;
+                margin-top: 4px;
+                padding: .75rem 3rem;
+                border: 1px solid #5A81F5;
+                transition: background-color .1s;
+
+                &:hover {
+                    background-color: rgba(90, 129, 245, 0.1);
+                }
+                
+                &:active {
+                    background-color: rgba(90, 129, 245, 0.2);
+                }
+            }
+        }
+
+        .images-gallery {
+            gap: 1.1rem;
+            display: grid;
+            grid-template-columns: repeat(3, 205px);
+            grid-template-rows: repeat(2, 205px);
+            
+            @include mobile {
+                display: block;
+                margin: 1.8rem 0 6rem 0;
+            }
+
+            .image-box {
+                position: relative;
+                
+                @include mobile {
+                    margin: 0 auto 1.2rem auto;
+                }
+
+                &.landscape {
+                    grid-column: 2 / 4;
+                }
+
+                .overlay {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0 1.5rem;
+                    background-color: rgba(50, 68, 121, 0.5);
+                    box-shadow: 0 4px 10px rgba(80, 118, 231, 0.5);
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    visibility: hidden;
+                    opacity: 0;
+                    transition: opacity .1s, visibility .1s;
+                    
+                    svg {
+                        fill: #fff;
+                        opacity: .7;
+                        transition: opacity .1s;
+                        
+                        &:hover {
+                            opacity: 1;
+                        }
+                    }
+                }
+
+                &:hover .overlay {
+                    visibility: visible;
+                    opacity: 1;
+                }
+            }
+            
+            
+            .image {
+                display: block;
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+}
